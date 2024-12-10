@@ -32,10 +32,14 @@ from tensorflow.keras.layers import LSTM, Dense
 ```
 
 
-**2)  데이터셋 **
+**2)  데이터셋**
+
+CSV 파일을 data에 저장하고 pandas의 함수를 이용하여 읽음
+
+
 
 ```python
-# 데이터 로드
+# 데이터 불러오기
 file_path = "C:\\Users\\2004s\\Downloads\\archive\\GOOGL.csv"  # Kaggle에서 다운로드한 파일 경로를 지정
 data = pd.read_csv(file_path)
 
@@ -44,11 +48,18 @@ print("결측치 개수:")
 print(data.isnull().sum())
 
 # 결측치 제거
-cleaned_data = data.dropna()
+data.dropna(inplace=True)
+
+# 필요한 열 선택
+data = data[['Volume', 'High', 'Low', 'Close(t)']]
+
+# 데이터 정규화
+scaler = MinMaxScaler()
+scaled_data = scaler.fit_transform(data)
 
 # 데이터 크기 확인
 print(f"원본 데이터 크기: {data.shape[0]} 행")
-print(f"결측치 제거 후 데이터 크기: {cleaned_data.shape[0]} 행")
+print(f"결측치 제거 후 데이터 크기: {data.shape[0]} 행")
 ```
 
 
